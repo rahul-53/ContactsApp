@@ -3,9 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/ContactsApp/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/ContactsApp/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/ContactsApp/app/src/main/res/layout/edit_field_layout.xml" value="0.1" />
-        <entry key="..\:/ContactsApp/app/src/main/res/layout/item_layout.xml" value="0.10182370820668693" />
+        <entry key="..\:/ContactsApp/app/src/main/res/layout/item_layout.xml" value="0.33" />
+        <entry key="..\:/ContactsApp/app/src/main/res/menu/menu_items.xml" value="0.209375" />
       </map>
     </option>
   </component>

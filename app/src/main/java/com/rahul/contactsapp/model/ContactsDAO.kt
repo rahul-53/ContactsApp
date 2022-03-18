@@ -1,6 +1,7 @@
 package com.rahul.contactsapp.model
 
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
@@ -10,7 +11,7 @@ interface ContactsDAO {
     fun addContacts(contacts: Contacts)
 
     @Query("SELECT * FROM contacts_table")
-    fun getContacts()
+    fun getContacts():LiveData<List<Contacts>>
 
     @Delete
     fun deleteContact(contacts: Contacts)

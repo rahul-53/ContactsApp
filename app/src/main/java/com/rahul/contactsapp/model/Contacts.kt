@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class Contacts(
 
     @ColumnInfo(name = "name")var name:String,
-    @ColumnInfo(name = "number")var number:Int
+    @ColumnInfo(name = "number")var number:String
     ){
     @PrimaryKey(autoGenerate = true)@ColumnInfo(name = "id") var id:Int = 0
 }
