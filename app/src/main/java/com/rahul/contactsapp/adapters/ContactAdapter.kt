@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rahul.contactsapp.databinding.ItemLayoutBinding
 import com.rahul.contactsapp.model.Contacts
 
+/*
 class ContactAdapter(private val contactList:List<Contacts>)
     :RecyclerView.Adapter<ContactAdapter.ContactViewHolder>() {
 
@@ -20,7 +21,7 @@ class ContactAdapter(private val contactList:List<Contacts>)
         val contacts = contactList[position]
         holder.itemViewBinding.apply {
             tvName.text=contacts.name
-            tvNumber.text = contacts.number
+            tvNumber.text = contacts.number.toString()
         }
     }
 
@@ -30,4 +31,4 @@ class ContactAdapter(private val contactList:List<Contacts>)
 
     inner class ContactViewHolder( val itemViewBinding: ItemLayoutBinding)
         :RecyclerView.ViewHolder(itemViewBinding.root){}
-}
+}*/
