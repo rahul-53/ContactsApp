@@ -9,6 +9,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ContactViewModel( val repo:ContactRepository):ViewModel() {
+
+
     fun addContacts(contacts:Contacts){
         CoroutineScope(Dispatchers.IO).launch {
             repo.addContactsInDB(contacts)
@@ -16,5 +18,9 @@ class ContactViewModel( val repo:ContactRepository):ViewModel() {
     }
     fun getContactList(): LiveData<List<Contacts>> {
         return repo.getContactList()
+    }
+
+    fun searchContact(searchName:String): LiveData<List<Contacts>>{
+        return repo.searchContact(searchName)
     }
 }

@@ -25,7 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),SearchView.OnQueryTextListener {
     lateinit var binding:ActivityMainBinding
     lateinit var contactDb:ContactDatabase
     lateinit var contactDao:ContactsDAO
@@ -34,8 +34,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var adapter:ContactAdapter
 
     private var contactList = mutableListOf<Contacts>()
-    var tempList = mutableListOf<Contacts>()
-
+    private var tempList = emptyList<Contacts>()
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity() {
             contactList.addAll(it)
             adapter.notifyDataSetChanged()
         })
+
     }
     private fun setAdapter(){
         adapter =  ContactAdapter(contactList)
@@ -69,35 +70,35 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.adapter = adapter
     }
 
-    /*override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_items, menu)
 
-        var item:MenuItem = menu!!.findItem(R.id.app_bar_search)
-        var searchView = item.actionView as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return true
-            }
-            @SuppressLint("NotifyDataSetChanged")
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if(newText!!.isNotEmpty()){
-                    tempList.clear()
-                    var search = newText.toLowerCase(Locale.getDefault())
+        val search = menu?.findItem(R.id.app_bar_search)
+        val searchView = search?.actionView as? SearchView
+        searchView?.isSubmitButtonEnabled= true
+        searchView?.setOnQueryTextListener(this)
 
-                    for (contacts in contactList){
-                        if (contacts.name.toLowerCase(Locale.getDefault()).contains(search)){
-                            tempList.add(contacts)
-                        }
-                        binding.recyclerView.adapter!!.notifyDataSetChanged()
-                    }
-                }
-                else{
-                    tempList.clear()
-                    tempList.addAll(contactList)
-                    binding.recyclerView.adapter!!.notifyDataSetChanged()
-                }
-                return true
+        return true
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if(newText != null){
+            searchInDb(newText)
+        }
+        return true
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun searchInDb(query:String){
+        val searchQuery = "%$query%"
+        viewModel.searchContact(searchQuery).observe(this) { list ->
+            list.let {
+                tempList = contactList
             }
-        })
-        return super.onCreateOptionsMenu(menu)
-    }*/
+        }
+    }
 }

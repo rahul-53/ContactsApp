@@ -3,6 +3,7 @@ package com.rahul.contactsapp.model
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ContactsDAO {
@@ -12,6 +13,9 @@ interface ContactsDAO {
 
     @Query("SELECT * FROM contacts_table")
     fun getContacts():LiveData<List<Contacts>>
+
+    @Query("Select * from contacts_table where name LIKE:searchName")
+     fun searchInDb(searchName: String) : LiveData<List<Contacts>>
 
     @Delete
     fun deleteContact(contacts: Contacts)
