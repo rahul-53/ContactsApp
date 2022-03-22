@@ -85,20 +85,11 @@ class MainActivity : AppCompatActivity(),SearchView.OnQueryTextListener {
         return true
     }
 
-   /* @SuppressLint("NotifyDataSetChanged")
-    private fun searchInDb(query:String){
-        val searchQuery = "%$query%"
-        viewModel.searchContact(searchQuery).observe(this) { list ->
-            list.let {
-                tempList = contactList
-            }
-        }
-    }*/
 
-    fun searchContact(query:String){
+    private fun searchContact(query:String){
         val searchQuery = "%$query%"
         viewModel.searchContacts(searchQuery).observe(this) { list ->
-            adapter.differ.currentList
+            adapter.differ.submitList(list)
         }
     }
 }

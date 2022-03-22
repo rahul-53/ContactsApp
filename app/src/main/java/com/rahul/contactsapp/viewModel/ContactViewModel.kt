@@ -21,9 +21,5 @@ class ContactViewModel( val repo:ContactRepository):ViewModel() {
         return repo.getContactList()
     }
 
-    /*fun searchContact(searchName:String): LiveData<List<Contacts>>{
-        return repo.searchContact(searchName)
-    }*/
-
     fun searchContacts(query: String) = repo.searchContacts(query)
 }

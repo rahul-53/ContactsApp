@@ -17,9 +17,6 @@ class ContactRepository( val contactDao:ContactsDAO) {
     fun getContactList():LiveData<List<Contacts>>{
         return contactDao.getContacts()
     }
-    /*fun searchContact(searchName:String): LiveData<List<Contacts>> {
-        return contactDao.searchInDb(searchName)
-    }*/
 
     fun searchContacts(query:String)= contactDao.searchInDb(query)
 
