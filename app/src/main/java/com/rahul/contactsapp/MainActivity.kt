@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -20,10 +18,7 @@ import com.rahul.contactsapp.model.ContactsDAO
 import com.rahul.contactsapp.repository.ContactRepository
 import com.rahul.contactsapp.viewModel.ContactViewModel
 import com.rahul.contactsapp.viewModel.ContactViewModelFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.util.*
+
 
 class MainActivity : AppCompatActivity(),SearchView.OnQueryTextListener {
     lateinit var binding:ActivityMainBinding
@@ -34,7 +29,7 @@ class MainActivity : AppCompatActivity(),SearchView.OnQueryTextListener {
     lateinit var adapter:ContactAdapter
 
     private var contactList = mutableListOf<Contacts>()
-    private var tempList = emptyList<Contacts>()
+
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,14 +53,12 @@ class MainActivity : AppCompatActivity(),SearchView.OnQueryTextListener {
         }
 
         viewModel.getContactList().observe(this, Observer {
-          contactList.clear()
-            contactList.addAll(it)
-            adapter.notifyDataSetChanged()
+          contact ->adapter.differ.submitList(contact)
         })
 
     }
     private fun setAdapter(){
-        adapter =  ContactAdapter(contactList)
+        adapter =  ContactAdapter(this,contactList)
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
     }
@@ -87,18 +80,25 @@ class MainActivity : AppCompatActivity(),SearchView.OnQueryTextListener {
 
     override fun onQueryTextChange(newText: String?): Boolean {
         if(newText != null){
-            searchInDb(newText)
+            searchContact(newText)
         }
         return true
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+   /* @SuppressLint("NotifyDataSetChanged")
     private fun searchInDb(query:String){
         val searchQuery = "%$query%"
         viewModel.searchContact(searchQuery).observe(this) { list ->
             list.let {
                 tempList = contactList
             }
+        }
+    }*/
+
+    fun searchContact(query:String){
+        val searchQuery = "%$query%"
+        viewModel.searchContacts(searchQuery).observe(this) { list ->
+            adapter.differ.currentList
         }
     }
 }

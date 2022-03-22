@@ -14,7 +14,7 @@ interface ContactsDAO {
     @Query("SELECT * FROM contacts_table")
     fun getContacts():LiveData<List<Contacts>>
 
-    @Query("Select * from contacts_table where name LIKE:searchName")
+    @Query("SELECT * FROM contacts_table WHERE name LIKE:searchName")
      fun searchInDb(searchName: String) : LiveData<List<Contacts>>
 
     @Delete

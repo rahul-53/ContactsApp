@@ -2,6 +2,7 @@ package com.rahul.contactsapp.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.room.Query
 import com.rahul.contactsapp.model.Contacts
 import com.rahul.contactsapp.repository.ContactRepository
 import kotlinx.coroutines.CoroutineScope
@@ -20,7 +21,9 @@ class ContactViewModel( val repo:ContactRepository):ViewModel() {
         return repo.getContactList()
     }
 
-    fun searchContact(searchName:String): LiveData<List<Contacts>>{
+    /*fun searchContact(searchName:String): LiveData<List<Contacts>>{
         return repo.searchContact(searchName)
-    }
+    }*/
+
+    fun searchContacts(query: String) = repo.searchContacts(query)
 }
